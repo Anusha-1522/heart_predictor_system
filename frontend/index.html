@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HeartCare AI - Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Main Dashboard -->
+    <div id="dashboard" class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-heartbeat"></i>
+                    <span>HeartCare AI</span>
+                </div>
+            </div>
+            
+            <!-- NAVIGATION - CRITICAL: Make sure these are <a> tags with href="#" -->
+            <nav class="sidebar-nav" id="sidebarNav">
+                <a href="#" class="nav-item active" data-page="dashboard">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item" data-page="prediction">
+                    <i class="fas fa-brain"></i>
+                    <span>AI Prediction</span>
+                </a>
+                <a href="#" class="nav-item" data-page="patients">
+                    <i class="fas fa-user-injured"></i>
+                    <span>Cardiac Patients</span>
+                </a>
+                <a href="#" class="nav-item" data-page="monitoring">
+                    <i class="fas fa-heart"></i>
+                    <span>Heart Monitoring</span>
+                </a>
+                <a href="#" class="nav-item" data-page="analytics">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="#" class="nav-item" data-page="appointments">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Appointments</span>
+                </a>
+            </nav>
+            
+            <div class="user-profile">
+                <div class="user-avatar">
+                    <i class="fas fa-user-md"></i>
+                </div>
+                <div class="user-info">
+                    <span class="user-name" id="userName">Dr. Cardiac Specialist</span>
+                    <span class="user-role">Cardiologist</span>
+                </div>
+                <button id="logoutBtn" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <header class="content-header">
+                <h1 id="pageTitle">Dashboard</h1>
+                <div class="header-actions">
+                    <div class="current-time" id="currentTime"></div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div id="dashboardPage" class="page-content active">
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-user-injured"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Cardiac Patients</h3>
+                            <p>Patients with heart conditions</p>
+                            <div class="stat-number" id="totalPatients">Loading...</div>
+                        </div>
+                    </div>
+                    <div class="stat-card danger">
+                        <div class="stat-icon">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>High Risk Cases</h3>
+                            <p>Patients with high heart disease risk</p>
+                            <div class="stat-number" id="highRiskPatients">Loading...</div>
+                        </div>
+                    </div>
+                    <div class="stat-card warning">
+                        <div class="stat-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>AI Predictions</h3>
+                            <p>Risk assessments completed</p>
+                            <div class="stat-number" id="totalPredictions">Loading...</div>
+                        </div>
+                    </div>
+                    <div class="stat-card success">
+                        <div class="stat-icon">
+                            <i class="fas fa-procedures"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Interventions</h3>
+                            <p>Preventive treatments prescribed</p>
+                            <div class="stat-number" id="interventionsCount">Loading...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Section -->
+                <div class="charts-section">
+                    <div class="chart-card full-width">
+                        <h3><i class="fas fa-chart-line"></i> Heart Disease Trends</h3>
+                        <p>Monthly cardiac risk assessment data</p>
+                        <div class="chart-container">
+                            <canvas id="trendChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Patients -->
+                <div class="recent-section">
+                    <h3><i class="fas fa-clock"></i> Recent High-Risk Alerts</h3>
+                    <div class="alerts-grid" id="recentAlerts">
+                        <div class="no-alerts">Loading alerts...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Prediction Page -->
+            <div id="predictionPage" class="page-content">
+                <div class="page-header">
+                    <h2><i class="fas fa-brain"></i> AI Heart Disease Risk Assessment</h2>
+                    <p>Enter patient data to predict heart disease risk using our AI model</p>
+                </div>
+
+                <div class="prediction-container">
+                    <div class="prediction-form-card">
+                        <h3>Patient Data Input</h3>
+                        <form id="predictionForm">
+                            <div class="form-grid">
+                                <!-- Row 1 -->
+                                <div class="form-group">
+                                    <label for="predAge">Age</label>
+                                    <input type="number" id="predAge" min="20" max="100" placeholder="45" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="predGender">Gender</label>
+                                    <select id="predGender" required>
+                                        <option value="">Select Gender</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                    </select>
+                                </div>
+
+                                <!-- Row 2 -->
+                                <div class="form-group">
+                                    <label for="predChestPain">Chest Pain Type</label>
+                                    <select id="predChestPain" required>
+                                        <option value="">Select Chest Pain Type</option>
+                                        <option value="typical angina">Typical Angina</option>
+                                        <option value="atypical angina">Atypical Angina</option>
+                                        <option value="non-anginal pain">Non-anginal Pain</option>
+                                        <option value="asymptomatic">Asymptomatic</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="predBP">Resting Blood Pressure (mm Hg)</label>
+                                    <input type="number" id="predBP" min="90" max="200" placeholder="150" required>
+                                </div>
+
+                                <!-- Row 3 -->
+                                <div class="form-group">
+                                    <label for="predChol">Cholesterol (mg/dl)</label>
+                                    <input type="number" id="predChol" min="100" max="600" placeholder="130" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="predFBS">Fasting Blood Sugar > 120 mg/dl</label>
+                                    <select id="predFBS" required>
+                                        <option value="0">No</option>
+                                        <option value="1">Yes</option>
+                                    </select>
+                                </div>
+
+                                <!-- Row 4 -->
+                                <div class="form-group">
+                                    <label for="predRestECG">Resting ECG Results</label>
+                                    <select id="predRestECG" required>
+                                        <option value="">Select ECG Results</option>
+                                        <option value="0">Normal</option>
+                                        <option value="1">ST-T Wave Abnormality</option>
+                                        <option value="2">Left Ventricular Hypertrophy</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="predMaxHR">Maximum Heart Rate Achieved</label>
+                                    <input type="number" id="predMaxHR" min="60" max="220" placeholder="150" required>
+                                </div>
+
+                                <!-- Row 5 -->
+                                <div class="form-group">
+                                    <label for="predExang">Exercise Induced Angina</label>
+                                    <select id="predExang" required>
+                                        <option value="0">No</option>
+                                        <option value="1">Yes</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="predOldpeak">ST Depression Induced by Exercise</label>
+                                    <input type="number" id="predOldpeak" step="0.1" min="0" max="10" placeholder="1.5" required>
+                                </div>
+
+                                <!-- Row 6 -->
+                                <div class="form-group">
+                                    <label for="predSlope">Slope of Peak Exercise ST Segment</label>
+                                    <select id="predSlope" required>
+                                        <option value="">Select Slope</option>
+                                        <option value="1">Upsloping</option>
+                                        <option value="2">Flat</option>
+                                        <option value="3">Downsloping</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="predCA">Number of Major Vessels Colored by Fluoroscopy</label>
+                                    <select id="predCA" required>
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                    </select>
+                                </div>
+
+                                <!-- Row 7 -->
+                                <div class="form-group">
+                                    <label for="predThal">Thalassemia</label>
+                                    <select id="predThal" required>
+                                        <option value="">Select Thalassemia</option>
+                                        <option value="3">Normal</option>
+                                        <option value="6">Fixed Defect</option>
+                                        <option value="7">Reversible Defect</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="predTimer" style="visibility: hidden;">Timer</label>
+                                    <div class="timer-display" id="predTimer">00:00:00</div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="predict-btn">
+                                <i class="fas fa-brain"></i>
+                                Analyze Heart Disease Risk
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="prediction-result-card" id="predictionResult" style="display: none;">
+                        <h3>AI Prediction Result</h3>
+                        <div id="resultContent"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cardiac Patients Page -->
+            <div id="patientsPage" class="page-content">
+                <div class="page-header">
+                    <h2><i class="fas fa-user-injured"></i> Cardiac Patients</h2>
+                    <button class="btn-primary" id="addPatientBtn">
+                        <i class="fas fa-plus"></i> Add New Patient
+                    </button>
+                </div>
+
+                <div class="patients-table-container">
+                    <div class="table-header">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="patientSearch" placeholder="Search patients...">
+                        </div>
+                        <button class="btn-secondary" onclick="exportAllReports()">
+                            <i class="fas fa-download"></i> Export All Reports
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="patients-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Age</th>
+                                    <th>Gender</th>
+                                    <th>Heart Rate</th>
+                                    <th>BP</th>
+                                    <th>Risk Level</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="patientsTableBody">
+                                <tr><td colspan="8" style="text-align: center; padding: 40px;">Loading patients...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Heart Monitoring Page -->
+            <div id="monitoringPage" class="page-content">
+                <div class="page-header">
+                    <h2><i class="fas fa-heart"></i> Heart Monitoring</h2>
+                    <div class="header-controls">
+                        <button class="btn-primary" id="startECGBtn">
+                            <i class="fas fa-play"></i> Start Live ECG
+                        </button>
+                        <button class="btn-secondary" id="stopECGBtn">
+                            <i class="fas fa-pause"></i> Pause
+                        </button>
+                        <button class="btn-download" onclick="downloadECGReading()">
+                            <i class="fas fa-download"></i> Save ECG Reading
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="monitoring-grid">
+                    <div class="monitoring-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-heartbeat"></i> Live ECG Monitor</h3>
+                            <div class="ecg-status">
+                                <span class="status-indicator"></span>
+                                <span>READY</span>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="ecgChart"></canvas>
+                        </div>
+                        <div class="ecg-controls">
+                            <div class="control-group">
+                                <label>Amplitude:</label>
+                                <input type="range" id="ecgAmplitude" min="0.5" max="2" step="0.1" value="1">
+                            </div>
+                            <div class="control-group">
+                                <label>Speed:</label>
+                                <input type="range" id="ecgSpeed" min="50" max="200" step="10" value="100">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="vitals-card">
+                        <h3><i class="fas fa-chart-line"></i> Vital Signs</h3>
+                        <div class="vitals-grid">
+                            <div class="vital-item">
+                                <span class="vital-value" id="liveHeartRate">72</span>
+                                <span class="vital-label">Heart Rate (bpm)</span>
+                                <div class="vital-trend stable">
+                                    <i class="fas fa-minus"></i> Stable
+                                </div>
+                            </div>
+                            <div class="vital-item">
+                                <span class="vital-value">120/80</span>
+                                <span class="vital-label">Blood Pressure</span>
+                                <div class="vital-trend stable">
+                                    <i class="fas fa-minus"></i> Stable
+                                </div>
+                            </div>
+                            <div class="vital-item">
+                                <span class="vital-value">98%</span>
+                                <span class="vital-label">Oxygen Saturation</span>
+                                <div class="vital-trend stable">
+                                    <i class="fas fa-minus"></i> Stable
+                                </div>
+                            </div>
+                            <div class="vital-item">
+                                <span class="vital-value">65</span>
+                                <span class="vital-label">Heart Rate Variability</span>
+                                <div class="vital-trend stable">
+                                    <i class="fas fa-minus"></i> Stable
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="vitals-history">
+                            <h4>Recent Readings</h4>
+                            <div class="readings-list" id="ecgReadingsList">
+                                <div class="reading-item">
+                                    <span>--:-- --</span>
+                                    <span>HR: -- bpm</span>
+                                    <span class="status-normal">--</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="alerts-panel">
+                    <h3><i class="fas fa-bell"></i> Cardiac Alerts</h3>
+                    <div class="alerts-list" id="ecgAlertsList">
+                        <div class="alert-item info">
+                            <i class="fas fa-info-circle"></i>
+                            <span>Start live ECG monitoring to see alerts</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Page -->
+            <div id="analyticsPage" class="page-content">
+                <div class="page-header">
+                    <h2><i class="fas fa-chart-bar"></i> Analytics</h2>
+                    <p>Comprehensive cardiac health analytics and reports</p>
+                </div>
+                <div class="analytics-grid">
+                    <div class="analytics-card">
+                        <h3>Risk Distribution</h3>
+                        <div class="chart-container">
+                            <canvas id="riskChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="analytics-card">
+                        <h3>Treatment Effectiveness</h3>
+                        <div class="chart-container">
+                            <canvas id="treatmentChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="analytics-card">
+                        <h3>Age Distribution</h3>
+                        <div class="chart-container">
+                            <canvas id="ageChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="analytics-card">
+                        <h3>Gender Analysis</h3>
+                        <div class="chart-container">
+                            <canvas id="genderChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Appointment Booking Page -->
+            <div id="appointmentsPage" class="page-content">
+                <div class="page-header">
+                    <h2><i class="fas fa-calendar-check"></i> Appointment Booking</h2>
+                    <button class="btn-primary" id="newAppointmentBtn">
+                        <i class="fas fa-plus"></i> Book New Appointment
+                    </button>
+                </div>
+
+                <div class="appointments-container">
+                    <!-- Upcoming Appointments -->
+                    <div class="appointments-section">
+                        <h3><i class="fas fa-clock"></i> Upcoming Appointments</h3>
+                        <div class="appointments-grid" id="upcomingAppointments">
+                            <div class="no-appointments">
+                                <i class="fas fa-calendar-times"></i>
+                                <p>No upcoming appointments</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Past Appointments -->
+                    <div class="appointments-section">
+                        <h3><i class="fas fa-history"></i> Past Appointments</h3>
+                        <div class="appointments-grid" id="pastAppointments">
+                            <div class="no-appointments">
+                                <i class="fas fa-history"></i>
+                                <p>No past appointments</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Patient Modal -->
+    <div id="addPatientModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-plus"></i> Add New Patient</h3>
+                <button class="close-btn" onclick="closeAddPatientModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addPatientForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="patientName">Full Name *</label>
+                            <input type="text" id="patientName" placeholder="John Doe" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="patientAge">Age *</label>
+                            <input type="number" id="patientAge" min="0" max="120" placeholder="45" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="patientGender">Gender *</label>
+                            <select id="patientGender" required>
+                                <option value="">Select Gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="patientHeartRate">Heart Rate (bpm)</label>
+                            <input type="number" id="patientHeartRate" min="40" max="200" placeholder="72">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="patientBP">Blood Pressure (mm Hg)</label>
+                            <input type="text" id="patientBP" placeholder="120/80">
+                        </div>
+                        <div class="form-group">
+                            <label for="patientCholesterol">Cholesterol (mg/dl)</label>
+                            <input type="number" id="patientCholesterol" min="100" max="500" placeholder="180">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="patientOldpeak">ST Depression (Oldpeak)</label>
+                            <input type="number" step="0.1" id="patientOldpeak" min="0" max="10" placeholder="1.5">
+                        </div>
+                        <div class="form-group">
+                            <label for="patientChestPain">Chest Pain Type</label>
+                            <select id="patientChestPain">
+                                <option value="">Select Type</option>
+                                <option value="typical angina">Typical Angina</option>
+                                <option value="atypical angina">Atypical Angina</option>
+                                <option value="non-anginal pain">Non-anginal Pain</option>
+                                <option value="asymptomatic">Asymptomatic</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn-secondary" onclick="closeAddPatientModal()">Cancel</button>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-save"></i> Save Patient
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Book Appointment Modal -->
+    <div id="bookAppointmentModal" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3><i class="fas fa-calendar-plus"></i> Book New Appointment</h3>
+                <button class="close-btn" onclick="closeBookAppointmentModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="appointmentForm">
+                    <!-- Step 1: Select Patient -->
+                    <div class="form-step active" id="step1">
+                        <h4><i class="fas fa-user-injured"></i> Select Patient</h4>
+                        <div class="form-group">
+                            <label for="appointmentPatient">Choose Patient *</label>
+                            <select id="appointmentPatient" required>
+                                <option value="">Select Patient</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="appointmentReason">Appointment Reason *</label>
+                            <textarea id="appointmentReason" rows="3" placeholder="Describe symptoms, concerns, or follow-up needs..." required></textarea>
+                        </div>
+                        <div class="step-buttons">
+                            <button type="button" class="btn-secondary" onclick="closeBookAppointmentModal()">Cancel</button>
+                            <button type="button" class="btn-primary" onclick="nextStep(2)">Next <i class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Select Doctor -->
+                    <div class="form-step" id="step2">
+                        <h4><i class="fas fa-user-md"></i> Select Cardiac Specialist</h4>
+                        <div class="doctors-grid" id="doctorsGrid">
+                            <!-- Doctor Cards will be populated here -->
+                        </div>
+                        <div class="step-buttons">
+                            <button type="button" class="btn-secondary" onclick="prevStep(1)"><i class="fas fa-arrow-left"></i> Back</button>
+                            <button type="button" class="btn-primary" onclick="nextStep(3)">Next <i class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Select Date & Time -->
+                    <div class="form-step" id="step3">
+                        <h4><i class="fas fa-calendar-alt"></i> Select Date & Time</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="appointmentDate">Appointment Date *</label>
+                                <input type="date" id="appointmentDate" min="" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="appointmentTime">Preferred Time *</label>
+                                <select id="appointmentTime" required>
+                                    <option value="">Select Time Slot</option>
+                                    <option value="09:00">09:00 AM</option>
+                                    <option value="10:00">10:00 AM</option>
+                                    <option value="11:00">11:00 AM</option>
+                                    <option value="14:00">02:00 PM</option>
+                                    <option value="15:00">03:00 PM</option>
+                                    <option value="16:00">04:00 PM</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="appointmentNotes">Additional Notes (Optional)</label>
+                            <textarea id="appointmentNotes" rows="2" placeholder="Any specific requirements or questions..."></textarea>
+                        </div>
+                        <div class="step-buttons">
+                            <button type="button" class="btn-secondary" onclick="prevStep(2)"><i class="fas fa-arrow-left"></i> Back</button>
+                            <button type="submit" class="btn-primary">
+                                <i class="fas fa-calendar-check"></i> Book Appointment
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- IMPORTANT: Add this FIX for navigation -->
+    <script>
+        // Navigation Fix - Add this before your main script
+        document.addEventListener('DOMContentLoaded', function() {
+            // Make sure all nav items are clickable
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.style.cursor = 'pointer';
+                
+                // Add inline onclick as backup
+                item.onclick = function(e) {
+                    e.preventDefault();
+                    const page = this.getAttribute('data-page');
+                    console.log('Navigation clicked:', page);
+                    
+                    // Call showPage if it exists
+                    if (typeof showPage === 'function') {
+                        showPage(page);
+                    } else {
+                        // Fallback navigation
+                        const pages = document.querySelectorAll('.page-content');
+                        pages.forEach(p => p.classList.remove('active'));
+                        
+                        const targetPage = document.getElementById(page + 'Page');
+                        if (targetPage) {
+                            targetPage.classList.add('active');
+                            
+                            // Update active nav item
+                            navItems.forEach(nav => nav.classList.remove('active'));
+                            this.classList.add('active');
+                            
+                            // Update page title
+                            const pageTitle = document.getElementById('pageTitle');
+                            if (pageTitle) {
+                                const titles = {
+                                    'dashboard': 'Dashboard',
+                                    'prediction': 'AI Prediction',
+                                    'patients': 'Cardiac Patients',
+                                    'monitoring': 'Heart Monitoring',
+                                    'analytics': 'Analytics',
+                                    'appointments': 'Appointments'
+                                };
+                                pageTitle.textContent = titles[page] || 'Dashboard';
+                            }
+                        }
+                    }
+                    return false;
+                };
+            });
+            
+            console.log('✅ Navigation fix applied');
+        });
+    </script>
+
+    <!-- Your main JavaScript file -->
+    <script src="script.js"></script>
+    
+    <!-- Add JSZip for bulk export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</body>
+</html>

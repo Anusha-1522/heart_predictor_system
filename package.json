@@ -1,0 +1,19 @@
+{
+  "name": "heartcare-ai",
+  "version": "1.0.0",
+  "description": "Heart Disease Prediction System",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "backend": "cd backend && python app.py",
+    "dev": "concurrently \"npm run backend\" \"npm start\"",
+    "install-all": "npm install && pip install -r requirements.txt"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "http-proxy-middleware": "^2.0.6"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  }
+}
