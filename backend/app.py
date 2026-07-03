@@ -141,7 +141,7 @@ def predict_heart_disease(data):
 @app.route('/api/login', methods=['POST'])
 def login():
     data = request.get_json()
-    if data.get('username') == 'doctor' and data.get('password') == 'heart2024':
+    if data.get('username') == 'admin' and data.get('password') == 'heartcare@':
         return jsonify({
             'success': True,
             'user': {'name': 'Dr. Cardiac Specialist', 'role': 'cardiologist'}
