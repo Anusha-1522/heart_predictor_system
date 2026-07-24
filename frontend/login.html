@@ -1,475 +1,403 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HeartCare AI - Login</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HeartCare AI - Login</title>
 
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-        .login-container {
-            background: white;
-            padding: 50px;
-            border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
-            width: 100%;
-            max-width: 500px;
-            animation: slideIn 0.5s ease-out;
-        }
+<style>
 
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
 
-        .login-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#0f172a,#1e3a8a,#2563eb);
+overflow:hidden;
+}
 
-        .login-header h1 {
-            color: #333;
-            margin-bottom: 15px;
-            font-size: 2.2rem;
-        }
+body::before{
+content:'';
+position:absolute;
+width:500px;
+height:500px;
+background:#60a5fa;
+border-radius:50%;
+top:-150px;
+left:-150px;
+filter:blur(130px);
+opacity:.45;
+}
 
-        .login-header p {
-            color: #666;
-            font-size: 1.1rem;
-        }
+body::after{
+content:'';
+position:absolute;
+width:450px;
+height:450px;
+background:#2563eb;
+border-radius:50%;
+bottom:-150px;
+right:-150px;
+filter:blur(130px);
+opacity:.45;
+}
 
-        .logo {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 25px;
-            gap: 15px;
-        }
+.login-box{
 
-        .logo i {
-            font-size: 3rem;
-            color: #e74c3c;
-            animation: heartbeat 1.5s infinite;
-        }
+width:420px;
+padding:40px;
+border-radius:25px;
+background:rgba(255,255,255,.1);
+backdrop-filter:blur(20px);
+box-shadow:0 20px 50px rgba(0,0,0,.3);
+color:white;
+position:relative;
+z-index:5;
+}
 
-        @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
+.logo{
 
-        .logo span {
-            font-size: 2rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
+width:90px;
+height:90px;
+margin:auto;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+background:white;
+margin-bottom:20px;
+animation:pulse 2s infinite;
 
-        .form-group {
-            margin-bottom: 25px;
-        }
+}
 
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: 600;
-            font-size: 1rem;
-        }
+.logo i{
 
-        .form-group input {
-            width: 100%;
-            padding: 16px;
-            border: 2px solid #e1e8ed;
-            border-radius: 12px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            background: #f8f9fa;
-        }
+font-size:42px;
+color:#ef4444;
 
-        .form-group input:focus {
-            outline: none;
-            border-color: #667eea;
-            background: white;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
+}
 
-        .login-btn {
-            width: 100%;
-            padding: 18px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 18px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 10px;
-        }
+@keyframes pulse{
 
-        .login-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
-        }
+0%{transform:scale(1);}
+50%{transform:scale(1.08);}
+100%{transform:scale(1);}
 
-        .login-btn:active {
-            transform: translateY(-1px);
-        }
+}
 
-        .login-btn:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-            transform: none !important;
-        }
+h1{
 
-        .error-message {
-            color: #e74c3c;
-            text-align: center;
-            margin-top: 20px;
-            padding: 12px;
-            background: #ffeaea;
-            border-radius: 8px;
-            border-left: 4px solid #e74c3c;
-            display: none;
-            animation: shake 0.5s;
-        }
+text-align:center;
+font-size:32px;
+margin-bottom:8px;
 
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
+}
 
-        .success-message {
-            color: #27ae60;
-            text-align: center;
-            margin-top: 20px;
-            padding: 12px;
-            background: #e8f6f3;
-            border-radius: 8px;
-            border-left: 4px solid #27ae60;
-            display: none;
-        }
+.subtitle{
 
-        .demo-credentials {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 12px;
-            margin-top: 30px;
-            font-size: 15px;
-            color: #666;
-            border: 2px dashed #dee2e6;
-        }
+text-align:center;
+opacity:.85;
+margin-bottom:35px;
 
-        .demo-credentials h4 {
-            margin-bottom: 15px;
-            color: #333;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+}
 
-        .demo-credentials h4 i {
-            color: #667eea;
-        }
+.input-box{
 
-        .user-option {
-            margin: 8px 0;
-            padding: 12px;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: all 0.2s;
-            border: 1px solid transparent;
-        }
+margin-bottom:22px;
+position:relative;
 
-        .user-option:hover {
-            background-color: #e9ecef;
-            border-color: #667eea;
-            transform: translateX(5px);
-        }
+}
 
-        .user-option strong {
-            color: #333;
-            font-size: 16px;
-        }
+.input-box label{
 
-        .user-option .credentials {
-            font-size: 14px;
-            color: #666;
-            margin-top: 5px;
-        }
+display:block;
+margin-bottom:8px;
+font-size:15px;
 
-        .loading {
-            display: none;
-            text-align: center;
-            margin-top: 15px;
-            color: #667eea;
-            font-weight: 600;
-        }
+}
 
-        .loading i {
-            animation: spin 1s linear infinite;
-            margin-right: 10px;
-        }
+.input-box input{
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+width:100%;
+padding:15px 18px;
+border:none;
+outline:none;
+border-radius:12px;
+font-size:15px;
 
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            color: #888;
-            font-size: 14px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-        }
+}
 
-        @media (max-width: 600px) {
-            .login-container {
-                padding: 30px 20px;
-                margin: 20px;
-            }
-            
-            .logo span {
-                font-size: 1.8rem;
-            }
-        }
-    </style>
+.input-box i{
+
+position:absolute;
+right:18px;
+top:47px;
+color:#666;
+cursor:pointer;
+
+}
+
+.options{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+font-size:14px;
+
+}
+
+.options a{
+
+color:white;
+text-decoration:none;
+
+}
+
+.options a:hover{
+
+text-decoration:underline;
+
+}
+
+button{
+
+width:100%;
+padding:15px;
+border:none;
+border-radius:12px;
+background:#2563eb;
+font-size:17px;
+font-weight:600;
+cursor:pointer;
+color:white;
+transition:.3s;
+
+}
+
+button:hover{
+
+background:#1d4ed8;
+transform:translateY(-2px);
+
+}
+
+#error{
+
+display:none;
+margin-top:20px;
+padding:12px;
+background:#ef4444;
+border-radius:10px;
+text-align:center;
+font-size:14px;
+
+}
+
+.loading{
+
+display:none;
+margin-top:20px;
+text-align:center;
+
+}
+
+.footer{
+
+margin-top:30px;
+text-align:center;
+font-size:13px;
+opacity:.8;
+
+}
+
+</style>
+
 </head>
+
 <body>
-    <div class="login-container">
-        <div class="login-header">
-            <div class="logo">
-                <i class="fas fa-heartbeat"></i>
-                <span>HeartCare AI</span>
-            </div>
-            <h1>Welcome Doctor</h1>
-            <p>Secure access to cardiac patient management system</p>
-        </div>
 
-        <form id="loginForm">
-            <div class="form-group">
-                <label for="username">
-                    <i class="fas fa-user-md"></i> Username
-                </label>
-                <input type="text" id="username" placeholder="Enter your username" required>
-            </div>
+<div class="login-box">
 
-            <div class="form-group">
-                <label for="password">
-                    <i class="fas fa-lock"></i> Password
-                </label>
-                <input type="password" id="password" placeholder="Enter your password" required>
-            </div>
+<div class="logo">
 
-            <button type="submit" class="login-btn" id="loginButton">
-                <i class="fas fa-sign-in-alt"></i> Login to Dashboard
-            </button>
+<i class="fas fa-heartbeat"></i>
 
-            <div class="loading" id="loading">
-                <i class="fas fa-spinner"></i> Authenticating...
-            </div>
+</div>
 
-            <div id="errorMessage" class="error-message">
-                <i class="fas fa-exclamation-circle"></i>
-                <span id="errorText">Invalid username or password</span>
-            </div>
+<h1>HeartCare AI</h1>
 
-            <div id="successMessage" class="success-message">
-                <i class="fas fa-check-circle"></i> Login successful! Redirecting...
-            </div>
-        </form>
+<p class="subtitle">Cardiac Health Management System</p>
 
-        <div class="demo-credentials">
-            <h4>
-                <i class="fas fa-user-circle"></i> Demo Account
-                <small>(Click to auto-fill)</small>
-            </h4>
-            <div class="user-option" onclick="fillCredentials('doctor', 'heart2024')">
-                <strong>👨‍⚕️ Doctor Account</strong>
-                <div class="credentials">Username: doctor | Password: heart2024</div>
-            </div>
-        </div>
+<form id="loginForm">
 
-        <div class="footer">
-            <p><i class="fas fa-shield-alt"></i> Secure System • Cardiac Health Management v2.0</p>
-            <p>Need help? Contact system administrator</p>
-        </div>
-    </div>
+<div class="input-box">
 
-    <script>
-        // Auto-fill credentials function
-        function fillCredentials(username, password) {
-            document.getElementById('username').value = username;
-            document.getElementById('password').value = password;
-            document.getElementById('errorMessage').style.display = 'none';
-            document.getElementById('successMessage').style.display = 'none';
-            
-            // Show visual feedback
-            const input = document.getElementById('username');
-            input.style.backgroundColor = '#e8f6f3';
-            input.style.borderColor = '#27ae60';
-            setTimeout(() => {
-                input.style.backgroundColor = '';
-                input.style.borderColor = '';
-            }, 1000);
-        }
+<label>Username</label>
 
-        // Form submission handler
-        document.getElementById('loginForm').addEventListener('submit', async function(event) {
-            event.preventDefault();
-            
-            const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value;
-            const errorMessage = document.getElementById('errorMessage');
-            const successMessage = document.getElementById('successMessage');
-            const loading = document.getElementById('loading');
-            const loginBtn = document.getElementById('loginButton');
-            const errorText = document.getElementById('errorText');
+<input
+type="text"
+id="username"
+placeholder="Enter Username"
+required>
 
-            // Hide previous messages
-            errorMessage.style.display = 'none';
-            successMessage.style.display = 'none';
-            loading.style.display = 'block';
-            loginBtn.disabled = true;
-            loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Authenticating...';
+</div>
 
-            try {
-                console.log('🔐 Attempting login...');
-                
-                // First check if backend is running
-                const healthCheck = await fetch('http://localhost:5000/api/health').catch(() => null);
-                
-                if (!healthCheck || !healthCheck.ok) {
-                    throw new Error('Backend server not running. Make sure to start: cd backend && python app.py');
-                }
+<div class="input-box">
 
-                // Attempt login
-                const response = await fetch('http://localhost:5000/api/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ username, password })
-                });
+<label>Password</label>
 
-                const data = await response.json();
-                console.log('Login response:', data);
+<input
+type="password"
+id="password"
+placeholder="Enter Password"
+required>
 
-                if (data.success) {
-                    // Show success
-                    successMessage.style.display = 'block';
-                    
-                    // Store login state
-                    localStorage.setItem('isLoggedIn', 'true');
-                    localStorage.setItem('currentUser', JSON.stringify(data.user));
-                    
-                    // Redirect to dashboard after delay
-                    setTimeout(() => {
-                        window.location.href = '/index.html';
-                    }, 1500);
-                    
-                } else {
-                    // Show error
-                    errorText.textContent = data.error || 'Invalid username or password';
-                    errorMessage.style.display = 'block';
-                    loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login to Dashboard';
-                }
-                
-            } catch (error) {
-                console.error('Login error:', error);
-                
-                // Show appropriate error message
-                if (error.message.includes('Backend server')) {
-                    errorText.textContent = error.message;
-                } else if (error.message.includes('Failed to fetch')) {
-                    errorText.textContent = 'Cannot connect to server. Make sure backend is running on port 5000';
-                } else {
-                    errorText.textContent = 'Network error. Please check your connection.';
-                }
-                
-                errorMessage.style.display = 'block';
-                loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login to Dashboard';
-                
-            } finally {
-                loading.style.display = 'none';
-                loginBtn.disabled = false;
-            }
-        });
+<i class="fas fa-eye" id="toggle"></i>
 
-        // Auto-fill doctor credentials on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('❤️ HeartCare AI Login Page Loaded');
-            
-            // Check if already logged in
-            if (localStorage.getItem('isLoggedIn') === 'true') {
-                console.log('Already logged in, redirecting...');
-                window.location.href = '/index.html';
-                return;
-            }
-            
-            // Auto-fill demo credentials
-            fillCredentials('doctor', 'heart2024');
-            
-            // Test backend connection on load
-            fetch('http://localhost:5000/api/health')
-                .then(response => {
-                    if (!response.ok) throw new Error('Backend not responding');
-                    return response.json();
-                })
-                .then(data => {
-                    console.log('✅ Backend is running:', data);
-                })
-                .catch(error => {
-                    console.warn('⚠️ Backend not reachable:', error.message);
-                    document.getElementById('errorText').textContent = 
-                        'Backend server not running. Start it with: cd backend && python app.py';
-                    document.getElementById('errorMessage').style.display = 'block';
-                });
-                
-            // Focus on password field after username is filled
-            document.getElementById('username').addEventListener('input', function() {
-                if (this.value.trim() === 'doctor') {
-                    document.getElementById('password').focus();
-                }
-            });
-        });
+</div>
 
-        // Allow pressing Enter in password field to submit
-        document.getElementById('password').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                document.getElementById('loginForm').requestSubmit();
-            }
-        });
-    </script>
+<div class="options">
+
+<label>
+
+<input type="checkbox">
+
+Remember Me
+
+</label>
+
+<a href="#">Forgot Password?</a>
+
+</div>
+
+<button type="submit">
+
+<i class="fas fa-right-to-bracket"></i>
+
+Login
+
+</button>
+
+<div class="loading" id="loading">
+
+<i class="fas fa-spinner fa-spin"></i>
+
+Authenticating...
+
+</div>
+
+<div id="error"></div>
+
+</form>
+
+<div class="footer">
+
+© 2026 HeartCare AI
+
+</div>
+
+</div>
+
+<script>
+
+const toggle=document.getElementById("toggle");
+
+const password=document.getElementById("password");
+
+toggle.onclick=()=>{
+
+if(password.type==="password"){
+
+password.type="text";
+
+toggle.classList.replace("fa-eye","fa-eye-slash");
+
+}else{
+
+password.type="password";
+
+toggle.classList.replace("fa-eye-slash","fa-eye");
+
+}
+
+};
+
+document.getElementById("loginForm").addEventListener("submit",async(e)=>{
+
+e.preventDefault();
+
+document.getElementById("loading").style.display="block";
+
+document.getElementById("error").style.display="none";
+
+const username=document.getElementById("username").value;
+
+const password=document.getElementById("password").value;
+
+try{
+
+const response=await fetch("http://localhost:5000/api/login",{
+
+method:"POST",
+
+headers:{
+
+"Content-Type":"application/json"
+
+},
+
+body:JSON.stringify({
+
+username,
+
+password
+
+})
+
+});
+
+const data=await response.json();
+
+if(data.success){
+
+localStorage.setItem("isLoggedIn","true");
+
+localStorage.setItem("currentUser",JSON.stringify(data.user));
+
+window.location.href="index.html";
+
+}else{
+
+throw new Error(data.error);
+
+}
+
+}catch(err){
+
+document.getElementById("loading").style.display="none";
+
+const error=document.getElementById("error");
+
+error.style.display="block";
+
+error.innerHTML=err.message;
+
+}
+
+});
+
+</script>
+
 </body>
-</html>
+</html> 

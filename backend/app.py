@@ -6,7 +6,10 @@ from datetime import datetime
 
 app = Flask(__name__)
 # Update CORS to allow requests from frontend
-CORS(app, origins=["http://localhost:3000", "http://127.0.0.1:3000"])
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app)
 
 # Patient database
 PATIENTS_FILE = 'patients.json'
@@ -142,13 +145,20 @@ def predict_heart_disease(data):
 @app.route('/api/login', methods=['POST'])
 def login():
     data = request.get_json()
-    if data.get('username') == 'doctor' and data.get('password') == 'heart2024':
-        return jsonify({
-            'success': True,
-            'user': {'name': 'Dr. Cardiac Specialist', 'role': 'cardiologist'}
-        })
-    return jsonify({'success': False, 'error': 'Invalid credentials'}), 401
 
+    if data.get('username') == 'admin' and data.get('password') == 'heartcare@':
+        return jsonify({
+            "success": True,
+            "user": {
+                "name": "Administrator",
+                "role": "Admin"
+            }
+        })
+
+    return jsonify({
+        "success": False,
+        "error": "Invalid credentials"
+    }), 401
 @app.route('/api/patients', methods=['GET'])
 def get_patients():
     return jsonify(patients_db)
@@ -254,5 +264,5 @@ if __name__ == '__main__':
     print("🚀 HeartCare AI System Starting...")
     print("📍 API Server: http://localhost:5000")
     print(f"📊 Loaded {len(patients_db)} patients")
-    print("🔑 Login with: username='doctor', password='heart2024'")
+    print("🔑 Login with: username='admin', password='heartcare@'")
     app.run(debug=True, host='0.0.0.0', port=5000)
