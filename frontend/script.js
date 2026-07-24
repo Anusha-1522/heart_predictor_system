@@ -3,6 +3,7 @@ let currentPage = 'dashboard';
 let patients = [];
 let predictionTimer = null;
 let predictionStartTime = null;
+const API = "http://127.0.0.1:5000";
 
 // ECG Variables
 let ecgChart = null;
@@ -115,7 +116,7 @@ function checkLoginStatus() {
     
     if (!isLoggedIn || isLoggedIn !== 'true') {
         console.log('❌ Not logged in, redirecting to login page');
-        window.location.href = '/login.html';
+        window.location.href = 'login.html';
         return;
     }
 
@@ -347,7 +348,7 @@ function getPageTitle(pageName) {
 async function loadDashboardData() {
     console.log('📊 Loading dashboard data...');
     try {
-        const response = await fetch('/api/dashboard/stats');
+        const response = await fetch(`${API}/api/dashboard/stats`);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         
         const data = await response.json();
@@ -379,7 +380,7 @@ async function loadDashboardData() {
 async function loadPatients() {
     console.log('👥 Loading patients data...');
     try {
-        const response = await fetch('/api/patients');
+        const response = await fetch(`${API}/api/patients`);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         
         patients = await response.json();
@@ -409,6 +410,7 @@ function loadPatientsTable() {
         `;
         return;
     }
+    
     
     patients.forEach(patient => {
         const row = document.createElement('tr');
@@ -587,7 +589,7 @@ async function handlePrediction(e) {
     console.log('📤 Sending prediction data:', formData);
     
     try {
-        const response = await fetch('/api/predict', {
+        const response = await fetch(`${API}/api/predict`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
