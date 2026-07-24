@@ -6,15 +6,11 @@ from datetime import datetime
 
 app = Flask(__name__)
 # Update CORS to allow requests from frontend
-<<<<<<< HEAD
 from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
 
-=======
-CORS(app)
->>>>>>> e123072085600234f1caf0a2b4e6d76d8dc58d25
 # Patient database
 PATIENTS_FILE = 'patients.json'
 
@@ -149,15 +145,6 @@ def predict_heart_disease(data):
 @app.route('/api/login', methods=['POST'])
 def login():
     data = request.get_json()
-<<<<<<< HEAD
-=======
-    if data.get('username') == 'admin' and data.get('password') == 'heartcare@':
-        return jsonify({
-            'success': True,
-            'user': {'name': 'Dr. Cardiac Specialist', 'role': 'cardiologist'}
-        })
-    return jsonify({'success': False, 'error': 'Invalid credentials'}), 401
->>>>>>> e123072085600234f1caf0a2b4e6d76d8dc58d25
 
     if data.get('username') == 'admin' and data.get('password') == 'heartcare@':
         return jsonify({
