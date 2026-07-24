@@ -54,9 +54,4 @@ HeartCare AI is a web-based Heart Disease Prediction and Cardiac Patient Managem
 
 | Username | Password  | Role |
 |----------|-----------|--------------|
-| doctor   | heart2024 | Cardiologist |
-
-### Live Demo
-- ## 🚀 Running the Project
-**Frontend:** http://localhost:5500
-**Backend API:** http://localhost:5000
+| admin   | heartcare@ | Administrator |
